@@ -11,6 +11,10 @@ const Main = ({navigation, route}: PropsMain) => {
       setTodos((prevState)=>[route.params?.post || {key:"", text:""}, ...prevState  ])
     }
   }, [route.params?.post])
+  const clearList = () => {
+    setTodos([])
+    setTodosDeleted(prevState => [...prevState, ...todos])
+  }
   const deleteTodo = (key: string) => {
     const newTodo = todos.filter(item => item.key !== key)
     const deleteTodo = todos.find(item => item.key === key )
@@ -20,7 +24,7 @@ const Main = ({navigation, route}: PropsMain) => {
   return <View style={styles.container}>
     <Text style={styles.title}>{Boolean(todos.length)? "Ваш список дел:":"Список дел пуст... Добавьте дело!"}</Text>
     <View>{todos.map((todo, key)=>{
-      return <Text> <Text style={styles.text}>{todo.text}</Text>
+      return <Text key={key}> <Text style={styles.text}>{todo.text}</Text>
         <Pressable style={styles.button} onPress={() => deleteTodo(todo.key)}>
           <Text style={styles.text}>Удалить</Text>
         </Pressable>
@@ -29,13 +33,13 @@ const Main = ({navigation, route}: PropsMain) => {
     <Pressable style={styles.button} onPress={() => navigation?.navigate("CreateTodo")}>
       <Text style={styles.text}>Добавить дело</Text>
     </Pressable>
-    <Pressable style={styles.button} onPress={() => navigation?.navigate("DeleteTodos", { Todos: todosDeleted })}>
-      <Text style={styles.text}>Удаленные дела</Text>
+    <Pressable style={styles.button} onPress={() => navigation?.navigate("DeleteTodos", { Todos: todosDeleted, setTodosDeleted })}>
+      <Text style={styles.text}>Корзина</Text>
     </Pressable>
     <Pressable onPress={() => navigation?.navigate("CompletedTodos")}>
       <Text style={styles.text}>Выполненные дела</Text>
     </Pressable>
-    <Pressable style={styles.button} onPress={() => setTodos([])}>
+    <Pressable style={styles.button} onPress={clearList}>
       <Text style={styles.text}>Очистить список дел!</Text>
     </Pressable>
   </View>

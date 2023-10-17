@@ -1,12 +1,19 @@
 import React from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {Button, StyleSheet, Text, View} from "react-native";
 import {PropsDeleteTodos} from "../../feature/routing/Routing";
 
-const DeleteTodos = ({route}: PropsDeleteTodos) =>{
-  const {Todos} =route.params
+const DeleteTodos = ({navigation, route}: PropsDeleteTodos) =>{
+  const clearTodo= ()=>{
+    setTodosDeleted([])
+    navigation.setParams({ Todos: [] })
+  }
+
+  const {Todos, setTodosDeleted} =route.params
   return  <View style={styles.container}>{Todos?.map((todo, key)=>{
-    return <Text style={styles.text}>{todo.text}</Text>
-  })}</View>
+    return <Text style={styles.text} key={key}>{todo.text}</Text>
+  })}
+    <Button title={"Очистит"} onPress={clearTodo} />
+  </View>
 
 }
 export default DeleteTodos

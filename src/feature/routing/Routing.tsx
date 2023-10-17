@@ -1,4 +1,4 @@
-import React from "react"
+import React, {Dispatch, SetStateAction} from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -58,7 +58,7 @@ type RootStackParamList = {
   Main: { post?: Todo }
   CreateTodo: undefined
   CompletedTodos: undefined
-  DeleteTodos: { Todos: Todo[] }
+  DeleteTodos: { Todos: Todo[], setTodosDeleted:Dispatch<SetStateAction<Todo[]>> }
   Profile: undefined
   Settings: undefined
   Auth: undefined
