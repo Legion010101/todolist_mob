@@ -1,10 +1,11 @@
 import React, {useState} from "react";
-import {Button, StyleSheet, Text, TextInput, View} from "react-native";
-import {PropsCreateTodo} from "../../feature/routing/Routing";
+import {Button, StyleSheet, TextInput, View} from "react-native";
+import {PropsCreateTodo} from "../../feature/routing/routingStack/MainRouting";
 import { customAlphabet } from 'nanoid/non-secure';
+import {alphabet} from "../../shared/constants/textConstants";
 const CreateTodo = ({ navigation}:PropsCreateTodo) =>{
   const [postText, setPostText] = useState("")
-  const id = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
+  const id = customAlphabet(alphabet, 10);
   return <View style={styles.container}>
     <TextInput
     multiline
