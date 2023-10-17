@@ -1,8 +1,12 @@
 import React from "react";
-import {Text} from "react-native";
+import {Text, View} from "react-native";
+import {useSelector} from "react-redux";
+import {getCompletedTodos} from "../../feature/redux/selectors/todosSelector";
 
 const CompletedTodos = () =>{
-  return <Text>Hi i'm Completed todos Page</Text>
+  const completedTodos = useSelector(getCompletedTodos)
+
+  return <View>Hi i'm Completed todos Page</View>
 
 }
 export default CompletedTodos

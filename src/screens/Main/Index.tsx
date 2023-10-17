@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Button, Pressable, StyleSheet, Text, View} from "react-native";
 import {PropsMain} from "../../feature/routing/Routing";
+import {useSelector} from "react-redux";
+import {getCompletedTodos} from "../../feature/redux/selectors/todosSelector";
 
 const Main = ({navigation, route}: PropsMain) => {
   const [todos, setTodos] = useState<Todo[]>([])
