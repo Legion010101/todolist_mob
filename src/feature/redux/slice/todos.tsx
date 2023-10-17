@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
+import {Todo} from "../../../screens/Main";
 
 const todos = createSlice({
   name: "todos",
   initialState: {
-    completedTodos: ["123"] as any[]
+    completedTodos: [] as Todo[]
   },
   reducers: {
     setCompletedTodos: (state, action) => {
