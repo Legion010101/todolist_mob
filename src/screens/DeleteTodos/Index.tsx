@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, StyleSheet, Text, View} from "react-native";
-import {PropsDeleteTodos} from "../../feature/routing/Routing";
+import {PropsDeleteTodos} from "../../feature/routing/routingStack/MainRouting";
 
 const DeleteTodos = ({navigation, route}: PropsDeleteTodos) =>{
   const clearTodo= ()=>{
@@ -12,7 +12,7 @@ const DeleteTodos = ({navigation, route}: PropsDeleteTodos) =>{
   return  <View style={styles.container}>{Todos?.map((todo, key)=>{
     return <Text style={styles.text} key={key}>{todo.text}</Text>
   })}
-    <Button title={"Очистит"} onPress={clearTodo} />
+    {Boolean(Todos.length) && <Button title={"Очистит"} onPress={clearTodo}/>}
   </View>
 
 }
