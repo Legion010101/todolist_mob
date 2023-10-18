@@ -14,6 +14,7 @@ const Routing = () => {
     <Tab.Navigator>
       <Tab.Screen name="Главная" component={MainRouting} options={{ tabBarBadge: completedTodos.length }} />
       <Tab.Screen name="Профиль" component={Auth} />
+
     </Tab.Navigator>
     </NavigationContainer>
   )
