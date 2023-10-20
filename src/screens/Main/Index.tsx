@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { Pressable, StyleSheet, Text, View } from "react-native"
+import { Button, Pressable, StyleSheet, Text, View } from "react-native"
 import { PropsMain } from "../../feature/routing/routingStack/MainRouting"
 import { useDispatch, useSelector } from "react-redux"
 import { clearMainTodos, setCompletedTodos, setMainTodos, updateMainTodos } from "../../feature/redux/slice/todos"
 import { getTodos } from "../../feature/redux/selectors/todosSelector"
 import ConfirmDeleteModal from "./components/ConfirmDeleteModal"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const Main = ({ navigation, route }: PropsMain) => {
   const dispatch = useDispatch()
@@ -12,13 +13,14 @@ const Main = ({ navigation, route }: PropsMain) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [deleteKey, setDeleteKey] = useState("")
   const MainTodos = useSelector(getTodos)
+  console.log({ MainTodos })
   useEffect(() => {
     if (route.params?.post) {
       dispatch(setMainTodos(route.params?.post))
     }
   }, [route.params?.post])
   const clearList = () => {
-    dispatch(clearMainTodos([]))
+    dispatch(clearMainTodos())
     setTodosDeleted((prevState) => [...prevState, ...MainTodos])
   }
   const finishTodo = (todo: Todo) => {
@@ -36,6 +38,17 @@ const Main = ({ navigation, route }: PropsMain) => {
     if (selectTodo && isAddBin) setTodosDeleted((prevState) => [...prevState, selectTodo])
     setModalVisible(false)
   }
+  const getItem = async () => {
+    try {
+      await AsyncStorage.setItem("test", "test2")
+      const test = await AsyncStorage.getItem("test")
+      const test4 = await AsyncStorage.getItem("todos")
+      const todos = test4 ? JSON.parse(test4) : []
+      console.log({ test, todos })
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{MainTodos.length ? "Ваш список дел:" : "Список дел пуст... Добавьте дело!"}</Text>
@@ -43,7 +56,6 @@ const Main = ({ navigation, route }: PropsMain) => {
         {MainTodos.map((todo, key) => {
           return (
             <Text key={key}>
-              {" "}
               <Text style={styles.text}>
                 {`${key + 1}  `}
                 {todo.text}
@@ -79,6 +91,7 @@ const Main = ({ navigation, route }: PropsMain) => {
         deleteTodo={deleteTodo}
         deleteKey={deleteKey}
       />
+      <Button title={"Storage Test"} onPress={getItem} />
     </View>
   )
 }
