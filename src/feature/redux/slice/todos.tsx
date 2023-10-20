@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import {Todo} from "../../../screens/Main";
+import { Todo } from "../../../screens/Main"
 
 const todos = createSlice({
   name: "todos",
@@ -9,17 +9,17 @@ const todos = createSlice({
   },
   reducers: {
     setMainTodos: (state, action) => {
-      state.todos = [action.payload, ...state.todos ]
+      state.todos = [action.payload, ...state.todos]
     },
     updateMainTodos: (state, action) => {
       state.todos = [...action.payload]
     },
-    clearMainTodos: (state, action) => {
+    clearMainTodos: (state) => {
       state.todos = []
     },
     setCompletedTodos: (state, action) => {
       state.completedTodos = [...state.completedTodos, action.payload]
-    },
+    }
   }
 })
 export default todos.reducer

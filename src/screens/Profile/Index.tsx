@@ -1,7 +1,7 @@
-import React from "react";
-import {Text} from "react-native";
+import React from "react"
+import { Text } from "react-native"
 
-const Profile = () =>{
+const Profile = () => {
   return <Text>Hi i'm Profile Page</Text>
 }
 export default Profile

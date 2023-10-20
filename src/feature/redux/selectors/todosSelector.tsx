@@ -6,4 +6,3 @@ export const getCompletedTodos = (state: RootState) => {
 export const getTodos = (state: RootState) => {
   return state.todos.todos
 }
-

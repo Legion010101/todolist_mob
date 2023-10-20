@@ -1,8 +1,7 @@
-import React from "react";
-import {Text} from "react-native";
+import React from "react"
+import { Text } from "react-native"
 
-const Settings = () =>{
+const Settings = () => {
   return <Text>Hi i'm Settings Page</Text>
-
 }
 export default Settings
