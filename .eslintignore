@@ -1,0 +1,7 @@
+build/*
+__tests__
+node_modules
+ios
+vendor
+android
+.idea

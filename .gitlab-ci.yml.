@@ -1,0 +1,8 @@
+codestyle-js-css:
+  image: node:16.17.0
+  stage: lint
+  before_script:
+   - if test -f package-lock.json; then rm package-lock.json; fi
+   - yarn install
+  script:
+   - yarn lint:check
