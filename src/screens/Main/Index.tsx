@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react"
-import { Button, Pressable, StyleSheet, Text, View } from "react-native"
+import { Pressable, StyleSheet, Text, View } from "react-native"
 import { PropsMain } from "../../feature/routing/routingStack/MainRouting"
 import { useDispatch, useSelector } from "react-redux"
-import { clearMainTodos, setCompletedTodos, setMainTodos, updateMainTodos } from "../../feature/redux/slice/todos"
+import {
+  clearMainTodos,
+  getMainTodos,
+  setCompletedTodos,
+  setMainTodos,
+  updateMainTodos
+} from "../../feature/redux/slice/todos"
 import { getTodos } from "../../feature/redux/selectors/todosSelector"
 import ConfirmDeleteModal from "./components/ConfirmDeleteModal"
 import AsyncStorage from "@react-native-async-storage/async-storage"
@@ -13,12 +19,23 @@ const Main = ({ navigation, route }: PropsMain) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [deleteKey, setDeleteKey] = useState("")
   const MainTodos = useSelector(getTodos)
-  console.log({ MainTodos })
   useEffect(() => {
     if (route.params?.post) {
       dispatch(setMainTodos(route.params?.post))
     }
   }, [route.params?.post])
+  useEffect(() => {
+    const initTodos = async () => {
+      const resTodos = await AsyncStorage.getItem("todos")
+      const resCompletedTodo = await AsyncStorage.getItem("completedTodo")
+      const jsonTodos = resTodos ? JSON.parse(resTodos) : []
+      const jsonCompletedTodo = resCompletedTodo ? JSON.parse(resCompletedTodo) : []
+      return { jsonTodos, jsonCompletedTodo }
+    }
+    initTodos().then((res) => {
+      dispatch(getMainTodos(res))
+    })
+  }, [])
   const clearList = () => {
     dispatch(clearMainTodos())
     setTodosDeleted((prevState) => [...prevState, ...MainTodos])
@@ -37,17 +54,6 @@ const Main = ({ navigation, route }: PropsMain) => {
     dispatch(updateMainTodos(newTodo))
     if (selectTodo && isAddBin) setTodosDeleted((prevState) => [...prevState, selectTodo])
     setModalVisible(false)
-  }
-  const getItem = async () => {
-    try {
-      await AsyncStorage.setItem("test", "test2")
-      const test = await AsyncStorage.getItem("test")
-      const test4 = await AsyncStorage.getItem("todos")
-      const todos = test4 ? JSON.parse(test4) : []
-      console.log({ test, todos })
-    } catch (err) {
-      console.log(err)
-    }
   }
   return (
     <View style={styles.container}>
@@ -91,7 +97,6 @@ const Main = ({ navigation, route }: PropsMain) => {
         deleteTodo={deleteTodo}
         deleteKey={deleteKey}
       />
-      <Button title={"Storage Test"} onPress={getItem} />
     </View>
   )
 }
